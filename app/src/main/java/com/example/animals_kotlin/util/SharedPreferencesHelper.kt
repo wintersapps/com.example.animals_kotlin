@@ -1,4 +1,4 @@
-package com.example.animals.util
+package com.example.animals_kotlin.util
 
 import android.content.Context
 import androidx.preference.PreferenceManager

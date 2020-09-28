@@ -1,4 +1,4 @@
-package com.example.animals
+package com.example.animals_kotlin
 
 import org.junit.Test
 

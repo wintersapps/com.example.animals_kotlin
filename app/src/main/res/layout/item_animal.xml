@@ -3,7 +3,7 @@
     <data>
         <variable
             name="animal"
-            type="com.example.animals.model.Animal" />
+            type="com.example.animals_kotlin.model.Animal" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

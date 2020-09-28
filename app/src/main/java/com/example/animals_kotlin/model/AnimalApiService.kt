@@ -1,4 +1,4 @@
-package com.example.animals.model
+package com.example.animals_kotlin.model
 
 import io.reactivex.Single
 import retrofit2.Retrofit

@@ -1,11 +1,11 @@
-package com.example.animals.view.fragments
+package com.example.animals_kotlin.view.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.animals.R
+import com.example.animals_kotlin.R
 
 class DetailFragment : Fragment() {
 

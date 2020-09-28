@@ -1,11 +1,11 @@
-package com.example.animals.util
+package com.example.animals_kotlin.util
 
 import android.content.Context
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.animals.R
+import com.example.animals_kotlin.R
 
 fun getProgressDrawable(context: Context): CircularProgressDrawable{
     return CircularProgressDrawable(context).apply {

@@ -1,4 +1,4 @@
-package com.example.animals
+package com.example.animals_kotlin
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

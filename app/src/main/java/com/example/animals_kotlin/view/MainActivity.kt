@@ -1,12 +1,12 @@
-package com.example.animals.view
+package com.example.animals_kotlin.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
-import com.example.animals.R
-import com.example.animals.databinding.ActivityMainBinding
+import com.example.animals_kotlin.R
+import com.example.animals_kotlin.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 

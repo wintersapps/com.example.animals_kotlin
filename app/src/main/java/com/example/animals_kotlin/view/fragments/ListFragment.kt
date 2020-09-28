@@ -1,4 +1,4 @@
-package com.example.animals.view.fragments
+package com.example.animals_kotlin.view.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,10 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.animals.R
-import com.example.animals.view.adapters.AnimalListAdapter
-import com.example.animals.viewmodel.ListViewModel
+import com.example.animals_kotlin.R
+import com.example.animals_kotlin.view.adapters.AnimalListAdapter
+import com.example.animals_kotlin.viewmodel.ListViewModel
 import kotlinx.android.synthetic.main.fragment_list.*
 
 class ListFragment : Fragment() {

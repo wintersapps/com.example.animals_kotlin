@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.example.animals.view.fragments.ListFragment"
+        android:name="com.example.animals_kotlin.view.fragments.ListFragment"
         android:label="List"
         tools:layout="@layout/fragment_list" >
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.example.animals.view.fragments.DetailFragment"
+        android:name="com.example.animals_kotlin.view.fragments.DetailFragment"
         android:label="Details"
         tools:layout="@layout/fragment_detail" />
 </navigation>

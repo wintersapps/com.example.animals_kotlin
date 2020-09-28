@@ -1,13 +1,12 @@
-package com.example.animals.viewmodel
+package com.example.animals_kotlin.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.example.animals.model.Animal
-import com.example.animals.model.AnimalApiService
-import com.example.animals.model.ApiKey
-import com.example.animals.util.SharedPreferencesHelper
-import io.reactivex.Scheduler
+import com.example.animals_kotlin.model.Animal
+import com.example.animals_kotlin.model.AnimalApiService
+import com.example.animals_kotlin.model.ApiKey
+import com.example.animals_kotlin.util.SharedPreferencesHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver

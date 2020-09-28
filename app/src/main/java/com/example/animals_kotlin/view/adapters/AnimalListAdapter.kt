@@ -1,13 +1,13 @@
-package com.example.animals.view.adapters
+package com.example.animals_kotlin.view.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.animals.R
-import com.example.animals.model.Animal
-import com.example.animals.util.getProgressDrawable
-import com.example.animals.util.loadImage
+import com.example.animals_kotlin.R
+import com.example.animals_kotlin.model.Animal
+import com.example.animals_kotlin.util.getProgressDrawable
+import com.example.animals_kotlin.util.loadImage
 import kotlinx.android.synthetic.main.item_animal.view.*
 
 class AnimalListAdapter(private val animalList: ArrayList<Animal>):
