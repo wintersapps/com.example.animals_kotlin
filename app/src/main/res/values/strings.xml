@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Animals</string>
+    <string name="an_error_occurred_while_loading_the_data">An error occurred while loading the data</string>
+</resources>

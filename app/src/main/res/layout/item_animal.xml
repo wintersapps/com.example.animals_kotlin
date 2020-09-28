@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="animal"
+            type="com.example.animals.model.Animal" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/animalImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="center"
+            android:src="@mipmap/ic_launcher_round"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/animalNameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#a0ffffff"
+            android:padding="4dp"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="@{animal.name}"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintEnd_toEndOf="@id/animalImage"
+            app:layout_constraintStart_toStartOf="@id/animalImage"
+            app:layout_constraintBottom_toBottomOf="@id/animalImage"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
