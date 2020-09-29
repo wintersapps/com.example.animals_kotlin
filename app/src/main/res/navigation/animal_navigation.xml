@@ -20,5 +20,9 @@
         android:id="@+id/detailFragment"
         android:name="com.example.animals_kotlin.view.fragments.DetailFragment"
         android:label="Details"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="animal"
+            app:argType="com.example.animals_kotlin.model.Animal" />
+    </fragment>
 </navigation>
