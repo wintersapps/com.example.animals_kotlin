@@ -11,21 +11,21 @@ import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.example.animals_kotlin.R
+import com.example.animals_kotlin.databinding.FragmentDetailBinding
 import com.example.animals_kotlin.model.Animal
-import com.example.animals_kotlin.util.getProgressDrawable
-import com.example.animals_kotlin.util.loadImage
-import kotlinx.android.synthetic.main.fragment_detail.*
+import com.example.animals_kotlin.model.AnimalPalette
 
 class DetailFragment : Fragment() {
 
     var animal: Animal? = null
+    private lateinit var binding: FragmentDetailBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_detail, container, false)
+        binding = FragmentDetailBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,18 +35,11 @@ class DetailFragment : Fragment() {
             animal = DetailFragmentArgs.fromBundle(it).animal
         }
 
-        context?.let {
-            animalImageImageView.loadImage(animal?.imageUrl, getProgressDrawable(it))
-        }
-
-        animalNameTextView.text = animal?.name
-        animalLocationTextView.text = animal?.location
-        animalLifespanTextView.text = animal?.lifeSpan
-        animalDietTextView.text = animal?.diet
-
         animal?.imageUrl?.let {
             setupBackgroundColor(it)
         }
+
+        binding.animal = animal
     }
 
     private fun setupBackgroundColor(url: String){
@@ -56,9 +49,9 @@ class DetailFragment : Fragment() {
             .into(object: CustomTarget<Bitmap>(){
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                     Palette.from(resource)
-                        .generate(){ palette ->
+                        .generate { palette ->
                             val intColor = palette?.lightMutedSwatch?.rgb ?: 0
-                            animalLayout.setBackgroundColor(intColor)
+                            binding.palette = AnimalPalette(intColor)
                         }
                 }
 
