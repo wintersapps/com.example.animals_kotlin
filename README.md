@@ -1,6 +1,6 @@
 # com.example.animals_kotlin
 
-Sample application displaying animals in the MVVM architecture.
+Sample Android application displaying animals in the MVVM architecture.
 
 Technologies and solutions used:
 - Material Design
