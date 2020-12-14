@@ -32,7 +32,7 @@ class ListViewModelTest{
     @Mock
     lateinit var prefs: SharedPreferencesHelper
 
-    val application = Mockito.mock(Application::class.java)
+    private val application = Mockito.mock(Application::class.java)
 
     var listViewModel = ListViewModel(application, true)
 

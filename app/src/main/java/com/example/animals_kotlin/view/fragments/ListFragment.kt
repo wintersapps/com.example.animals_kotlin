@@ -7,21 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.animals_kotlin.R
+import com.example.animals_kotlin.databinding.FragmentListBinding
 import com.example.animals_kotlin.view.adapters.AnimalListAdapter
 import com.example.animals_kotlin.viewmodel.ListViewModel
-import kotlinx.android.synthetic.main.fragment_list.*
 
 class ListFragment : Fragment() {
 
+    private var _binding: FragmentListBinding? = null
+    private val binding get() = _binding!!
     private lateinit var viewModel: ListViewModel
     private val listAdapter = AnimalListAdapter(arrayListOf())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_list, container, false)
+    ): View {
+        _binding = FragmentListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,41 +33,46 @@ class ListFragment : Fragment() {
         viewModel.refresh()
         observeViewModel()
 
-        animalsListRecyclerView.apply {
+        binding.animalsListRecyclerView.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = listAdapter
         }
 
-        swipeRefreshLayout.setOnRefreshListener{
-            animalsListRecyclerView.visibility = View.GONE
-            loadingDataErrorTextView.visibility = View.GONE
-            loadingDataProgressBar.visibility = View.VISIBLE
+        binding.swipeRefreshLayout.setOnRefreshListener{
+            binding.animalsListRecyclerView.visibility = View.GONE
+            binding.loadingDataErrorTextView.visibility = View.GONE
+            binding.loadingDataProgressBar.visibility = View.VISIBLE
             viewModel.hardRefresh()
-            swipeRefreshLayout.isRefreshing = false
+            binding.swipeRefreshLayout.isRefreshing = false
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun observeViewModel(){
         viewModel.animals.observe(viewLifecycleOwner, { list ->
             list?.let {
-                animalsListRecyclerView.visibility = View.VISIBLE
+                binding.animalsListRecyclerView.visibility = View.VISIBLE
                 listAdapter.updateAnimalList(it)
             }
         })
 
         viewModel.loading.observe(viewLifecycleOwner, { loading ->
             loading?.let {
-                loadingDataProgressBar.visibility = if (loading) View.VISIBLE else View.GONE
+                binding.loadingDataProgressBar.visibility = if (loading) View.VISIBLE else View.GONE
                 if(loading){
-                    loadingDataErrorTextView.visibility = View.GONE
-                    animalsListRecyclerView.visibility = View.GONE
+                    binding.loadingDataErrorTextView.visibility = View.GONE
+                    binding.animalsListRecyclerView.visibility = View.GONE
                 }
             }
         })
 
         viewModel.loadError.observe(viewLifecycleOwner, { isError ->
             isError?.let {
-                loadingDataErrorTextView.visibility = if(isError) View.VISIBLE else View.GONE
+                binding.loadingDataErrorTextView.visibility = if(isError) View.VISIBLE else View.GONE
             }
         })
     }

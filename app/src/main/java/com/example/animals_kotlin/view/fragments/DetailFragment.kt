@@ -18,13 +18,14 @@ import com.example.animals_kotlin.model.AnimalPalette
 class DetailFragment : Fragment() {
 
     var animal: Animal? = null
-    private lateinit var binding: FragmentDetailBinding
+    private var _binding: FragmentDetailBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentDetailBinding.inflate(inflater, container, false)
+    ): View {
+        _binding = FragmentDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -40,6 +41,11 @@ class DetailFragment : Fragment() {
         }
 
         binding.animal = animal
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setupBackgroundColor(url: String){
