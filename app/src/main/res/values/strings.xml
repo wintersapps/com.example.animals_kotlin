@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Animals</string>
     <string name="an_error_occurred_while_loading_the_data">An error occurred while loading the data</string>
+    <string name="app_ad_id">App Ad ID</string>
+    <string name="banner_ad_id">Banner Ad ID</string>
 </resources>

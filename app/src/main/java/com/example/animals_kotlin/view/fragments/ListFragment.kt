@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.animals_kotlin.databinding.FragmentListBinding
 import com.example.animals_kotlin.view.adapters.AnimalListAdapter
 import com.example.animals_kotlin.viewmodel.ListViewModel
+import com.google.android.gms.ads.AdRequest
 
 class ListFragment : Fragment() {
 
@@ -45,6 +46,9 @@ class ListFragment : Fragment() {
             viewModel.hardRefresh()
             binding.swipeRefreshLayout.isRefreshing = false
         }
+
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
     }
 
     override fun onDestroyView() {
