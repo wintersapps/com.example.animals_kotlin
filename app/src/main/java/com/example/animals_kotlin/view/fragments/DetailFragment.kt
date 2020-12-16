@@ -11,15 +11,20 @@ import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.example.animals_kotlin.R
 import com.example.animals_kotlin.databinding.FragmentDetailBinding
 import com.example.animals_kotlin.model.Animal
 import com.example.animals_kotlin.model.AnimalPalette
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
 
 class DetailFragment : Fragment() {
 
     var animal: Animal? = null
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
+    private lateinit var interstitialAd: InterstitialAd
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +36,8 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        showInterstitialAd()
 
         arguments?.let {
             animal = DetailFragmentArgs.fromBundle(it).animal
@@ -63,5 +70,17 @@ class DetailFragment : Fragment() {
 
                 override fun onLoadCleared(placeholder: Drawable?) {}
             })
+    }
+
+    private fun showInterstitialAd(){
+        interstitialAd = InterstitialAd(binding.root.context)
+        interstitialAd.adUnitId = getString(R.string.interstitial_ad_id)
+        interstitialAd.loadAd(AdRequest.Builder().build())
+        interstitialAd.adListener = object : AdListener(){
+            override fun onAdLoaded() {
+                super.onAdLoaded()
+                interstitialAd.show()
+            }
+        }
     }
 }
