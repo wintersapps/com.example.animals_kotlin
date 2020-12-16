@@ -8,10 +8,11 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.animals_kotlin.databinding.ItemAnimalBinding
 import com.example.animals_kotlin.model.Animal
+import com.example.animals_kotlin.view.fragments.ListFragment
 import com.example.animals_kotlin.view.fragments.ListFragmentDirections
 import com.example.animals_kotlin.view.listeners.AnimalClickListener
 
-class AnimalListAdapter(private val animalList: ArrayList<Animal>):
+class AnimalListAdapter(private val animalList: ArrayList<Animal>, private val listFragment: ListFragment):
     RecyclerView.Adapter<AnimalListAdapter.AnimalViewHolder>(), AnimalClickListener {
 
     fun updateAnimalList(newAnimalList: List<Animal>){
@@ -37,8 +38,7 @@ class AnimalListAdapter(private val animalList: ArrayList<Animal>):
     override fun onClick(view: View) {
         for(animal in animalList){
             if(TextUtils.equals(view.tag.toString(), animal.name)){
-                val action = ListFragmentDirections.actionGoToDetails(animal)
-                Navigation.findNavController(view).navigate(action)
+                listFragment.onAnimalClick(animal)
             }
         }
     }

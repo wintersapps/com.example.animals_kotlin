@@ -1,23 +1,36 @@
 package com.example.animals_kotlin.view.fragments
 
+import android.opengl.Visibility
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.NonNull
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.animals_kotlin.R
 import com.example.animals_kotlin.databinding.FragmentListBinding
+import com.example.animals_kotlin.model.Animal
 import com.example.animals_kotlin.view.adapters.AnimalListAdapter
 import com.example.animals_kotlin.viewmodel.ListViewModel
+import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.rewarded.RewardItem
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdCallback
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 
 class ListFragment : Fragment() {
 
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: ListViewModel
-    private val listAdapter = AnimalListAdapter(arrayListOf())
+    private val listAdapter = AnimalListAdapter(arrayListOf(), this)
+    private lateinit var rewardedAd: RewardedAd
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +42,7 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        rewardedAd = RewardedAd(binding.root.context, getString(R.string.rewarded_ad_id))
 
         viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
         viewModel.refresh()
@@ -79,6 +93,45 @@ class ListFragment : Fragment() {
                 binding.loadingDataErrorTextView.visibility = if(isError) View.VISIBLE else View.GONE
             }
         })
+    }
+
+    fun onAnimalClick(animal: Animal){
+        binding.loadingDataProgressBar.visibility = View.VISIBLE
+        binding.animalsListRecyclerView.visibility = View.GONE
+        showRewardedAd(animal)
+    }
+
+    private fun showRewardedAd(animal: Animal){
+        val adCallback = object: RewardedAdCallback() {
+            override fun onRewardedAdClosed() {
+                showList()
+            }
+            override fun onUserEarnedReward(@NonNull reward: RewardItem) {
+                goToAnimalDetails(animal)
+            }
+            override fun onRewardedAdFailedToShow(adError: AdError) {
+                goToAnimalDetails(animal)
+            }
+        }
+        val adLoadCallback = object: RewardedAdLoadCallback() {
+            override fun onRewardedAdLoaded() {
+                rewardedAd.show(activity, adCallback)
+            }
+            override fun onRewardedAdFailedToLoad(adError: LoadAdError) {
+                goToAnimalDetails(animal)
+            }
+        }
+        rewardedAd.loadAd(AdRequest.Builder().build(), adLoadCallback)
+    }
+
+    private fun showList(){
+        binding.loadingDataProgressBar.visibility = View.GONE
+        binding.animalsListRecyclerView.visibility = View.VISIBLE
+    }
+
+    private fun goToAnimalDetails(animal: Animal){
+        val action = ListFragmentDirections.actionGoToDetails(animal)
+        Navigation.findNavController(binding.root).navigate(action)
     }
 
 }

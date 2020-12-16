@@ -4,4 +4,5 @@
     <string name="app_ad_id"></string>
     <string name="banner_ad_id"></string>
     <string name="interstitial_ad_id"></string>
+    <string name="rewarded_ad_id"></string>
 </resources>
