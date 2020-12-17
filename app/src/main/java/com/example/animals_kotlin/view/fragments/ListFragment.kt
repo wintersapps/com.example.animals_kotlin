@@ -1,8 +1,6 @@
 package com.example.animals_kotlin.view.fragments
 
-import android.opengl.Visibility
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +9,7 @@ import androidx.annotation.NonNull
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.animals_kotlin.BuildConfig
 import com.example.animals_kotlin.R
 import com.example.animals_kotlin.databinding.FragmentListBinding
 import com.example.animals_kotlin.model.Animal
@@ -61,8 +60,12 @@ class ListFragment : Fragment() {
             binding.swipeRefreshLayout.isRefreshing = false
         }
 
-        val adRequest = AdRequest.Builder().build()
-        binding.adView.loadAd(adRequest)
+        if(BuildConfig.FLAVOR == "free") {
+            val adRequest = AdRequest.Builder().build()
+            binding.adView.loadAd(adRequest)
+        }else{
+            binding.adViewLayout.visibility = View.GONE
+        }
     }
 
     override fun onDestroyView() {
@@ -96,9 +99,13 @@ class ListFragment : Fragment() {
     }
 
     fun onAnimalClick(animal: Animal){
-        binding.loadingDataProgressBar.visibility = View.VISIBLE
-        binding.animalsListRecyclerView.visibility = View.GONE
-        showRewardedAd(animal)
+        if(BuildConfig.FLAVOR == "free") {
+            binding.loadingDataProgressBar.visibility = View.VISIBLE
+            binding.animalsListRecyclerView.visibility = View.GONE
+            showRewardedAd(animal)
+        }else{
+            goToAnimalDetails(animal)
+        }
     }
 
     private fun showRewardedAd(animal: Animal){

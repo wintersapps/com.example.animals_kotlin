@@ -25,6 +25,19 @@ android {
         }
     }
 
+    flavorDimensions "pricing"
+
+    productFlavors {
+        free {
+            dimension "pricing"
+            applicationId "com.example.animals_kotlin.free"
+        }
+        paid {
+            dimension "pricing"
+            applicationId "com.example.animals_kotlin.paid"
+        }
+    }
+
     compileOptions{
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
