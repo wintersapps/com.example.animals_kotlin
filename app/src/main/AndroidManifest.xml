@@ -3,6 +3,7 @@
     package="com.example.animals_kotlin">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
 
     <application
         android:name="androidx.multidex.MultiDexApplication"
