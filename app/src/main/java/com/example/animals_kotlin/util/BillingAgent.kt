@@ -10,12 +10,15 @@ class BillingAgent(private val activity: Activity, private val callback: Billing
         BillingClient.newBuilder(activity).setListener(this).enablePendingPurchases().build()
     private val productsSKUList = listOf("id_of_managed_product_in_google_console")
     private val productsList = arrayListOf<SkuDetails>()
+    private val subscriptionsSKUList = listOf("id_of_subscription_in_google_console")
+    private val subscriptionsList = arrayListOf<SkuDetails>()
 
     init {
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     getAvailableProducts()
+                    getAvailableSubscriptions()
                 }
             }
 
@@ -32,10 +35,11 @@ class BillingAgent(private val activity: Activity, private val callback: Billing
         billingResult: BillingResult,
         purchases: MutableList<Purchase>?
     ) {
-        checkProduct(billingResult, purchases)
+//        checkProduct(billingResult, purchases)
+        checkSubscription(billingResult, purchases)
     }
 
-    fun checkProduct(billingResult: BillingResult, purchases: MutableList<Purchase>?) {
+    private fun checkProduct(billingResult: BillingResult, purchases: MutableList<Purchase>?) {
         purchases?.let {
             var token: String? = null
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK
@@ -57,11 +61,21 @@ class BillingAgent(private val activity: Activity, private val callback: Billing
                     .setPurchaseToken(str)
 //                    .setDeveloperPayload("Token consumed")
                     .build()
-                billingClient.consumeAsync(params){ billingResult, _ ->
-                     if(billingResult.responseCode == BillingClient.BillingResponseCode.OK){
-                         callback.onTokenConsumed()
-                     }
+                billingClient.consumeAsync(params) { billingResult, _ ->
+                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                        callback.onTokenConsumed()
+                    }
                 }
+            }
+        }
+    }
+
+    private fun checkSubscription(billingResult: BillingResult, purchases: MutableList<Purchase>?) {
+        purchases?.let {
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK
+                || billingResult.responseCode == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED
+            ) {
+                callback.onTokenConsumed()
             }
         }
     }
@@ -83,6 +97,23 @@ class BillingAgent(private val activity: Activity, private val callback: Billing
         }
     }
 
+    fun getAvailableSubscriptions() {
+        if (billingClient.isReady) {
+            val params = SkuDetailsParams.newBuilder()
+                .setSkusList(subscriptionsSKUList)
+                .setType(BillingClient.SkuType.SUBS)
+                .build()
+            billingClient.querySkuDetailsAsync(params) { billingResult, skuDetailsList ->
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    subscriptionsList.clear()
+                    skuDetailsList?.let {
+                        subscriptionsList.addAll(it)
+                    }
+                }
+            }
+        }
+    }
+
     fun purchaseView() {
         if (productsList.size > 0) {
             val billingFlowParams = BillingFlowParams
@@ -90,6 +121,24 @@ class BillingAgent(private val activity: Activity, private val callback: Billing
                 .setSkuDetails(productsList[0]) //productsList[0] 'cause I have one product
                 .build()
             billingClient.launchBillingFlow(activity, billingFlowParams)
+        }
+    }
+
+    fun purchaseSubscriptionView() {
+        val list = billingClient.queryPurchases(BillingClient.SkuType.SUBS).purchasesList
+        list?.let {
+            if (it.size > 0) {
+                //if there are more subscriptions than one you have to manage it
+                callback.onTokenConsumed()
+            } else {
+                if (subscriptionsList.size > 0) {
+                    val billingFlowParams = BillingFlowParams
+                        .newBuilder()
+                        .setSkuDetails(subscriptionsList[0]) //subscriptionsList[0] 'cause I have one product
+                        .build()
+                    billingClient.launchBillingFlow(activity, billingFlowParams)
+                }
+            }
         }
     }
 
